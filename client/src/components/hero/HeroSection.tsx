@@ -37,7 +37,7 @@ export function HeroSection({ onPrimaryAction: _ }: Props) {
           variants={fadeIn}
           className="text-center text-xl font-semibold leading-tight tracking-tight md:text-2xl"
         >
-          The <span className="text-gradient">enterprise AI workspace</span> for Salesforce teams
+          The <span className="text-gradient">enterprise AI workspace</span> for B2B sales Process
         </motion.h1>
 
         <motion.p
