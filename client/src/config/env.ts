@@ -1,5 +1,7 @@
 export const env = {
-  apiBaseUrl: import.meta.env.VITE_API_BASE_URL ?? '/api',
+  // Empty string = same-origin (e.g., Vercel Functions at /api/*).
+  // For local dev with the Express BFF, set VITE_API_BASE_URL=http://localhost:8787.
+  apiBaseUrl: import.meta.env.VITE_API_BASE_URL ?? '',
   useMocks: (import.meta.env.VITE_USE_MOCKS ?? 'false') === 'true',
   orgUrl: import.meta.env.VITE_SF_ORG_URL ?? '',
   agentId: import.meta.env.VITE_AGENT_ID ?? '',

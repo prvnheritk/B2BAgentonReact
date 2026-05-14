@@ -88,22 +88,9 @@ export function useAgentConversation() {
           );
         } else {
           const res = await messagingService.send({ sessionId, sequenceId, text: trimmed });
-          const text =
-            res.messages
-              ?.map((m) => (typeof m.message === 'string' ? m.message : ''))
-              .filter(Boolean)
-              .join('\n\n') ?? '';
-          if (!text) {
-            updateMessage(active.id, assistantId, {
-              status: 'error',
-              error:
-                'Agentforce returned an empty response. Check the BFF logs — the agent may not be activated, or the prompt may not match a topic.',
-            });
-            setStatus(active.id, 'error');
-          } else {
-            updateMessage(active.id, assistantId, { text, status: 'complete' });
-            setStatus(active.id, 'idle');
-          }
+          const replyText = extractReplyText(res);
+          updateMessage(active.id, assistantId, { text: replyText, status: 'complete' });
+          setStatus(active.id, 'idle');
         }
       } catch (err) {
         const message = err instanceof Error ? err.message : 'unknown error';
@@ -120,4 +107,38 @@ export function useAgentConversation() {
   }, []);
 
   return { send, cancel, active };
+}
+
+/**
+ * Best-effort extraction of human-readable text from an Agentforce response.
+ * The shape varies: usually messages[].message, sometimes .text/.content,
+ * occasionally a top-level field. We try them all so the UI never blanks.
+ */
+function extractReplyText(res: unknown): string {
+  if (!res || typeof res !== 'object') return '';
+  const r = res as Record<string, unknown>;
+  const arr = Array.isArray(r.messages) ? (r.messages as Record<string, unknown>[]) : [];
+  const collected: string[] = [];
+
+  for (const m of arr) {
+    for (const k of ['message', 'text', 'content', 'value'] as const) {
+      const v = m[k];
+      if (typeof v === 'string' && v.trim()) {
+        collected.push(v);
+        break;
+      }
+    }
+  }
+
+  if (collected.length === 0) {
+    for (const k of ['text', 'message', 'content'] as const) {
+      const v = r[k];
+      if (typeof v === 'string' && v.trim()) {
+        collected.push(v);
+        break;
+      }
+    }
+  }
+
+  return collected.join('\n\n');
 }
