@@ -97,18 +97,23 @@
   .grid-stack > * { grid-area: 1 / 1; }
 }
 
-/* Compact prose for chat — Agentforce often returns "loose" markdown
-   lists (blank lines between bullets) which renders <p> tags inside
-   each <li>. The default typography plugin adds large margins on
-   both, which makes responses feel airy and over-spaced. */
-.prose-sm :where(p) { margin-top: 0.5em; margin-bottom: 0.5em; }
-.prose-sm :where(ul, ol) { margin-top: 0.4em; margin-bottom: 0.4em; padding-left: 1.25em; }
-.prose-sm :where(li) { margin-top: 0.1em; margin-bottom: 0.1em; }
-.prose-sm :where(li > p) { margin-top: 0; margin-bottom: 0; }
-.prose-sm :where(li > p + p) { margin-top: 0.25em; }
-.prose-sm :where(h1, h2, h3, h4) { margin-top: 0.9em; margin-bottom: 0.4em; }
-.prose-sm :where(h1, h2, h3, h4):first-child { margin-top: 0; }
-.prose-sm :where(hr) { margin-top: 1em; margin-bottom: 1em; }
+/* Compact prose for chat. Higher specificity than typography's :where()
+   selectors plus !important on a few stubborn rules so these always win. */
+.prose.prose-sm p { margin-top: 0.35em !important; margin-bottom: 0.35em !important; }
+.prose.prose-sm ul,
+.prose.prose-sm ol { margin-top: 0.3em !important; margin-bottom: 0.3em !important; padding-left: 1.25em !important; }
+.prose.prose-sm li { margin-top: 0.1em !important; margin-bottom: 0.1em !important; }
+.prose.prose-sm li > p { margin-top: 0 !important; margin-bottom: 0 !important; }
+.prose.prose-sm li > p + p { margin-top: 0.2em !important; }
+.prose.prose-sm h1,
+.prose.prose-sm h2,
+.prose.prose-sm h3,
+.prose.prose-sm h4 { margin-top: 0.8em !important; margin-bottom: 0.3em !important; }
+.prose.prose-sm > *:first-child { margin-top: 0 !important; }
+.prose.prose-sm > *:last-child { margin-bottom: 0 !important; }
+.prose.prose-sm hr { margin-top: 0.8em !important; margin-bottom: 0.8em !important; }
+/* Collapse runs of <br> that Agentforce occasionally emits between sections. */
+.prose.prose-sm br + br { display: none; }
 
 /* highlight.js theme — minimal */
 .hljs { background: transparent; color: inherit; }

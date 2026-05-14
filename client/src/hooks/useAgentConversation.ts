@@ -140,5 +140,16 @@ function extractReplyText(res: unknown): string {
     }
   }
 
-  return collected.join('\n\n');
+  return normalize(collected.join('\n\n'));
+}
+
+function normalize(text: string): string {
+  return text
+    // Collapse runs of 3+ blank lines down to 2.
+    .replace(/\n{3,}/g, '\n\n')
+    // Collapse runs of <br> / <br/> / <br /> tags (case-insensitive) to a single one.
+    .replace(/(\s*<br\s*\/?>\s*){2,}/gi, '<br/>\n')
+    // Strip lines that are only whitespace / &nbsp;.
+    .replace(/^[ \t]*(&nbsp;| )+[ \t]*$/gm, '')
+    .trim();
 }
