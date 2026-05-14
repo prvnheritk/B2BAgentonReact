@@ -53,7 +53,7 @@ export function PromptComposer({
     >
       <div
         className={cn(
-          'mx-auto flex max-w-3xl items-end gap-2 rounded-2xl border border-border bg-card/60 p-2 shadow-glass',
+          'mx-auto flex max-w-5xl items-end gap-2 rounded-2xl border border-border bg-card/60 p-2 shadow-glass',
           'focus-within:border-primary/60 focus-within:ring-2 focus-within:ring-primary/20',
         )}
       >
@@ -123,7 +123,7 @@ export function PromptComposer({
           </Tooltip>
         )}
       </div>
-      <p className="mx-auto mt-2 max-w-3xl text-center text-[10px] text-muted-foreground/70">
+      <p className="mx-auto mt-2 max-w-5xl text-center text-[10px] text-muted-foreground/70">
         Agentforce can make mistakes. Verify business-critical responses before acting.
       </p>
     </motion.div>

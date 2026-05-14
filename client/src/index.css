@@ -97,6 +97,19 @@
   .grid-stack > * { grid-area: 1 / 1; }
 }
 
+/* Compact prose for chat — Agentforce often returns "loose" markdown
+   lists (blank lines between bullets) which renders <p> tags inside
+   each <li>. The default typography plugin adds large margins on
+   both, which makes responses feel airy and over-spaced. */
+.prose-sm :where(p) { margin-top: 0.5em; margin-bottom: 0.5em; }
+.prose-sm :where(ul, ol) { margin-top: 0.4em; margin-bottom: 0.4em; padding-left: 1.25em; }
+.prose-sm :where(li) { margin-top: 0.1em; margin-bottom: 0.1em; }
+.prose-sm :where(li > p) { margin-top: 0; margin-bottom: 0; }
+.prose-sm :where(li > p + p) { margin-top: 0.25em; }
+.prose-sm :where(h1, h2, h3, h4) { margin-top: 0.9em; margin-bottom: 0.4em; }
+.prose-sm :where(h1, h2, h3, h4):first-child { margin-top: 0; }
+.prose-sm :where(hr) { margin-top: 1em; margin-bottom: 1em; }
+
 /* highlight.js theme — minimal */
 .hljs { background: transparent; color: inherit; }
 .hljs-keyword, .hljs-selector-tag, .hljs-built_in { color: hsl(263 90% 75%); }

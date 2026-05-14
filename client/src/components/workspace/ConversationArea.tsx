@@ -52,7 +52,7 @@ export function ConversationArea() {
 
       <ScrollArea className="flex-1" viewportClassName="px-4 py-4" ref={scrollRef}>
         {hasMessages ? (
-          <div className="mx-auto flex max-w-3xl flex-col gap-4">
+          <div className="mx-auto flex max-w-5xl flex-col gap-4">
             <AnimatePresence initial={false}>
               {active.messages.map((m) => (
                 <MessageBubble key={m.id} message={m} onPrompt={send} />
